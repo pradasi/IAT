@@ -47,7 +47,11 @@ if ($conn->connect_error) {
     padding: 20px; 
     width: 700px;
     height: 150px; 
-     } 
+     }
+			
+			.hide{
+				display: none;
+			}
 /*
      .tb3 {
   border: 2px dashed #111111;
@@ -167,15 +171,21 @@ if ($conn->connect_error) {
             # code...
           
 
-
+						 //href='http:../$row3[QP]'
+						 
+						 //	$_SESSION['path'] = 'http:../'.$row3[QP];
+						 
                echo" <br><br><h4>$SubjectName<br><br>Question Paper code : $row3[QP_code]<br><br>
-
-               <a href='http:../$row3[QP]' class='btn btn-lg btn-info' Download >Download</a><br></h4>";
-
+							 <form method='post' action='otp.php'>
+						 	<button type='submit' class='btn btn-lg btn-info' value='http:../$row3[QP]' name='otp' onclick='askotp()'> Generate OTP</button><br></h4></form>";
+						 
            }
 
           ?>
-
+				</div>
+			</div>
+		</div>
+		
 
 
          <!--  <div class="row placeholders">
@@ -195,5 +205,11 @@ if ($conn->connect_error) {
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+			function askotp(){
+				<?
+				?>
+			}
+		</script>
   </body>
 </html>
