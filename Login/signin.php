@@ -25,7 +25,7 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 		if(!$row) {
 			header("Location:../Login/index.html");
 		 }
-		
+		$_SESSION['email'] = $Email;
 		else if($rowx['Options']=="Course Instructor - CI"){
 
 					$_SESSION=array();

@@ -169,15 +169,10 @@ if ($conn->connect_error) {
 
            while ($row3=mysqli_fetch_assoc($res3) ) {
             # code...
-          
-
-						 //href='http:../$row3[QP]'
-						 
-						 //	$_SESSION['path'] = 'http:../'.$row3[QP];
 						 
                echo" <br><br><h4>$SubjectName<br><br>Question Paper code : $row3[QP_code]<br><br>
-							 <form method='post' action='otp.php'>
-						 	<button type='submit' class='btn btn-lg btn-info' value='http:../$row3[QP]' name='otp' onclick='askotp()'> Generate OTP</button><br></h4></form>";
+							 <form method='post' action='GenerateOTP.php'>
+						 	<button type='submit' class='btn btn-lg btn-info' value='http:../$row3[QP]' name='otp'> Generate OTP</button><br></h4></form>";
 						 
            }
 
@@ -205,11 +200,6 @@ if ($conn->connect_error) {
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script>
-			function askotp(){
-				<?
-				?>
-			}
-		</script>
+ 
   </body>
 </html>
