@@ -16,6 +16,7 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 		
 		$Email=$_POST['Email'];
 		$Password=$_POST['Password'];
+		$_SESSION['email'] = $Email;
  
 		$ret=mysqli_query( $conn, "select * from  Staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
 		$row = mysqli_fetch_assoc($ret);
@@ -23,35 +24,35 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 		$Options = mysqli_query( $conn ,"select Options from Staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
 		$rowx =mysqli_fetch_assoc($Options);
 		if(!$row) {
-			header("Location:../Login/index.html");
+			header("Location:index.html");
 		 }
-		$_SESSION['email'] = $Email;
+		
 		else if($rowx['Options']=="Course Instructor - CI"){
 
 					$_SESSION=array();
 					$_SESSION['unm']=$row['Name'];
-					$_SESSION['uid']=$row['Password'];
+					$_SESSION['type'] = "CI";
 					$_SESSION['status']=true;
 
-			header("Location:../Homepage/CIHome.php");
+			header("Location:./Homepage/CIHome.php");
 		}
 		
 		else if($rowx['Options']=="Chief Course Instructor - CCI"){
 
 			$_SESSION=array();
 					$_SESSION['unm']=$row['Name'];
-					$_SESSION['uid']=$row['Password'];
+					$_SESSION['type'] = "CCI";
 					$_SESSION['status']=true;
-			header("Location:../Homepage/CCIHome.php");
+			header("Location:./Homepage/CCIHome.php");
 		}
 		
 		else if($rowx['Options']=="Test Coordinator - TC"){
 
 			$_SESSION=array();
 					$_SESSION['unm']=$row['Name'];
-					$_SESSION['uid']=$row['Password'];
+					$_SESSION['type'] = "TC";
 					$_SESSION['status']=true;
-			header("Location:../Homepage/TCHome.php");
+			header("Location:./Homepage/TCHome.php");
 		}
 
 		// else{

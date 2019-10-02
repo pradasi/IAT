@@ -11,6 +11,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
+if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
+
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +25,7 @@ if ($conn->connect_error) {
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../favicon.ico">
+      <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 
     <title>Home</title>
 
@@ -41,39 +44,54 @@ if ($conn->connect_error) {
     <style type="text/css">
      
      h4{
-      font-style:Times New Roman;
-          border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 700px;
-    height: 80px; 
+			font-style:Times New Roman;
+			border-radius: 5px;
+			border: 2px solid #418BCA;
+			padding: 20px; 
+			width: 700px;
+			height: 80px; 
+			transition: all 0.5s;
+         
+        
+         
      } 
-/*
-     .tb3 {
-  border: 2px dashed #111111;
-  width: 600px 600px;
-  border-left-padding: 500px;
-}*/
-/*#rcorners2 {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px; 
-}*/
-
+        h4:hover{
+            background-color: #418BCA ;
+            color: white ;
+            transform: scale(1.1) ;
+        }
+        
+ 
+        #topnavi{
+            background-color: 	#418BCA ;
+        }
+        #topnavi a{
+            font-family: 'Pacifico', cursive;
+            color: white ;
+            height: 55px ;
+            border-bottom-color: white ;
+        }
+        
+         #topnavi a:hover{
+            color: black;
+        }
+        
+        .container-fluid li a:hover{
+           background-color: #418BCA ;
+           color: white ;
+        
+        
+        }
+        
+       
+       
     </style>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="topnavi">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -82,19 +100,7 @@ if ($conn->connect_error) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Hi
-              <?php 
-                if(isset($_SESSION['status']))
-                {
-                  echo $_SESSION['unm']; 
-                }
-                else
-                { 
-                  echo ' error';
-                }
-              ?>
-
-
+          <a class="navbar-brand" href="#"> Question Paper Management System 
           </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -102,12 +108,12 @@ if ($conn->connect_error) {
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/index.php">Logout</a></li>
+            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
     </nav>
-
+ <br><br>
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
@@ -153,16 +159,17 @@ if ($conn->connect_error) {
               
       echo "
       <div class='tb3'>           
-      <p><h4>Your Email: $row[Email]</h4></p>
-      <p><h4>Your Role: $row[Options]</h4></p>
-      <p><h4>Semester : $row[Sem]</h4></p>
-      <p><h4>Subject: $row[Subject]</h4></p>
-      <p><h4>Subject: Code $rowx[Subject_code]</h4></p>
+      <p><h4><b>Your Email ID : </b> $row[Email]</h4></p>
+      <p><h4><b>Your Role : </b> $row[Options]</h4></p>
+      <p><h4><b>Semester : </b>$row[Sem]</h4></p>
+      <p><h4><b>Subject : </b>$row[Subject]</h4></p>
+      <p><h4><b>Subject Code : </b> $rowx[Subject_code]</h4></p>
       </div>
      ";              
   
 
       ?>
+				</div></div></div>
 
          <!--  <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
@@ -183,3 +190,10 @@ if ($conn->connect_error) {
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+
+<?php 
+
+} else {
+	header('location:logout.php');
+}
+?>

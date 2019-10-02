@@ -1,18 +1,8 @@
-<?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
-
+<?php
+	session_start();
+if($_SESSION['generated']){
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +14,23 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../favicon.ico">
- <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+      <script>
+     var timeLeft = 30;
+    function countdown() {
+         var elem = document.getElementById('someId');
+         var timerId = setInterval(countdown, 1000);
 
+          if (timeLeft != 0) {
+                 elem.innerHTML = 'Time Left is  '+timeLeft + ' seconds <br>';
+            timeLeft--;
+            clearTimeout(timerId);
+
+          }
+        else {
+                  clearTimeout(timerId);
+        }
+    }
+      </script>
     <title>Home</title>
 
     <!-- Bootstrap core CSS -->
@@ -36,35 +41,69 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../assets/js/ie-emulation-modes-warning.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style type="text/css">
      
-    #mydiv{
+     h4{
+      font-style:Times New Roman;
+          border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    width: 700px;
+    height: 150px; 
+     }
+			
+			.hide{
+				display: none;
+			}
+        
+        #dlink{
+            margin-top: 200px ;
+            margin-left:200px ;
+            
+            border: 1px solid blue ;
+            padding: 5px ;
+        }
+        
+        #errorOTP{
+            margin-left:200px ;
+            background-color: red ;
+            border: 1px solid black ;
+            
+        }
+        
+          #mydiv{
       font-style:Times New Roman;
           border-radius: 5px;
-        border: 2px solid #1263a7;
+        border: 2px solid #418BCA;
        padding: 10px ;
         width: 75% ;
       transition: all 0.3s;
-        background-color: #418BCA ;
-            color: white ;
+       
+            color: black;
        
          
         
          
      } 
-        #mydiv:hover{
-            transform: scale(1.01);
-        }
-        #mygenbtn{
+       
+        #mybtn{
            
-             color: #418BCA ;
-              background-color: white ;
+             color: white ;
+              background-color: 418BCA ;
+            transition: all 0.2s;
               
         }
+        #mybtn:hover{
+           
+            transform: scale(1.01) ;
+              
+        }
+        
         
         #mygenbtn:hover{
            transform: scale(1.02) ;
@@ -91,21 +130,25 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
         
         
         }
-        
-			
-		
 
     </style>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+   
+   <script>
+     
+       $(window).on('load', function () {
+            $('#myModal').modal('show');
+ });
+       
+//       $(window).load(function()
+//        {
+//            $('#myModal').modal('show');
+//        });
+    </script>
   </head>
 
   <body>
-
+ 
     <nav class="navbar navbar-inverse navbar-fixed-top" id="topnavi">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -117,6 +160,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
           </button>
           <a class="navbar-brand" href="#">Question Paper Management System
               
+
 
           </a>
         </div>
@@ -135,97 +179,77 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li ><a href="CCIHome.php">Your Details <span class="sr-only">(current)</span></a></li>
-            <li class="active"><a href="#">View/Download Question Paper</a></li>
+            <li ><a href="#">Your Details <span class="sr-only">(current)</span></a></li>
+            <?php if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){?>
+            <li class="active"><a href="view_download_qp.php">View/Download Question Paper</a></li>
             <li><a href="suggestchanges.php">Suggest Changes</a></li>
              <li><a href="nochanges.php">Final selection for IAT</a></li>
               <li><a href="deleteconfirm.php">Remove Final selection for IAT</a></li>
               <li><a href="selectedqp.php"> Selected Question Paper for IAT</a></li>
+               <?php } else{ ?>
+              <li><a href="downloadpaper.php">Download Question Paper</a></li>
+              <?php }?>
           </ul>
         </div>
+          
         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 style="font-style:" class="page-header">Hi
-
-              <?php 
-                if(isset($_SESSION['status']))
-                {
-                  echo $_SESSION['unm']; 
-                }
-                else
-                { 
-                  echo 'error';
-                }
-              ?>
-
-
-
-          </h1>
-
-          <?php
-
+            <br><br>
          
-
-          $q="select * from Staff where Name='$_SESSION[unm]'";
-          $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
-
-          $row=mysqli_fetch_assoc($res);
-
-          $SubjectName = $row['Subject'];
-
-          $q2 = "select Subject_code from Subjects where SubjectName='$SubjectName' ";
-
-           $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
-
-           $row2=mysqli_fetch_assoc($res2);
-
-           $SubjectCode = $row2['Subject_code'];
-
-           $q3 = "Select * from Question_paper where Subject_code ='$SubjectCode'";
-
-           $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
-
-
-           while ($row3=mysqli_fetch_assoc($res3) ) {
-            # code...
-						 
-               echo" <br><br><div id='mydiv'><b>Subject Name : </b>$SubjectName<br><br><b>Question Paper code : </b>$row3[QP_code]<br><br>
-							 <form method='post' action='GenerateOTP.php'>
-						 	<button type='submit' class='btn btn-lg btn-info' id='mygenbtn' value='http:../$row3[QP]' name='otp'>  Generate OTP</button><br></div>
-                            </form>";
-						 
-           }
-
-          ?>
+<?php 
+              error_reporting(0);
+                if(isset($_SESSION['status'])){	
+                    //for generating otp
+                    if(isset($_POST['verify'])){
+                        $serop = (int)$_SESSION['OTP'];
+                        $cliotp = (int) $_POST['verotp'];
+                        if($serop == $cliotp){
+                            $path = $_SESSION['path']; 
+                            
+                            
+                            
+                            echo "<script> countdown() ;</script>";
+                            echo "<div id='mydiv'>Download link will expire in 30 seconds<br><br><div id='someId'></div> <br><a id='mybtn' class='btn btn-primary' Download href=$path >CLICK TO DOWNLOAD</a></div> " ;
+                        
+                           $_SESSION['OTP'] = '';
+                            $_SESSION['path'] = '';
+														$reroute = '';
+													 if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){
+                           echo "<script>setTimeout(function() {
+                                    window.location = 'view_download_qp.php'
+                                        }, 30000);</script>" ;
+													 } else  if($_SESSION['status'] == true && $_SESSION['type'] == "TC") {
+														 echo "<script>setTimeout(function() {
+                                    window.location = 'downloadpaper.php'
+                                        }, 30000);</script>" ;
+													 }
+														 
+                        } else {
+                            
+                            echo "<script>alert('OTP not matched!!!'); setTimeout(function() {
+                                    window.location = 'verifyOTP.php'
+                                        }, 0);</script>";
+                         
+                           
+                            die();
+                        }
+                    } 
+                }else {
+                    echo "<script>alert('Please Login!!')</script>";
+                    //header("Location: ../Login/index.html");
+                    // echo "<script> window.location.href = '../Login/index.html'; }</script>" ;
+                }
+            
+?>	
+  
             
             
-        
             
-            
-<!--
-        <div class="container">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Generate OTP</button>
-                <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <form method='post' action='GenerateOTP.php' id="modal-details">
-                                    <p><b>Validate OTP (One Time Password)</b> </p>
-                                    <p>An OTP( One Time Password ) has been sent to your Email ID.<br> Please Enter the OTP to Verify</p>
-                                    <input type="text" class="form-control" id="usr" name="EnteredOTP" placeholder="Enter the OTP"> 
 
-                                    <div class="modal-footer">
-                                    <button type='submit' class="btn btn-success" style="text-align:left" form="modal-details" onclick="GenerateOtp()">Validate OTP</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                </div>
-          </div>
-        </div>
--->
             
-       
+            
+            
+    
+     
             
 
             
@@ -257,9 +281,13 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
  
   </body>
 </html>
-<?php 
-
-} else {
-	header('location:logout.php');
-}
-?>
+<?php } else {
+	
+	if($_SESSION['type'] == "CCI"){
+	header('location:view_download_qp.php');
+	} else if($_SESSION['type'] == "TC"){
+		header('location:downloadpaper.php');	
+	} else {
+		header('location:logout.php');
+	}
+}?>

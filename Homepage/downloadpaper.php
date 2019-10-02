@@ -10,7 +10,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
+if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
 ?>
 
 
@@ -42,14 +42,52 @@ if ($conn->connect_error) {
 
         <style type="text/css">
      
-     h4{
+   #mydiv{
       font-style:Times New Roman;
-          border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 700px;
-    height: 160px; 
+          border-radius: 5px;
+        border: 2px solid #1263a7;
+       padding: 10px ;
+        width: 75% ;
+      transition: all 0.3s;
+        background-color: #418BCA ;
+            color: white ;
+       
+         
+        
+         
      } 
+        #mydiv:hover{
+            transform: scale(1.01);
+        }
+        #mygenbtn{
+           
+             color: #418BCA ;
+              background-color: white ;
+              
+        }
+        
+        #mygenbtn:hover{
+           transform: scale(1.02) ;
+        }
+      
+ 
+        #topnavi{
+            background-color: 	#418BCA ;
+        }
+        #topnavi a{
+            font-family: 'Pacifico', cursive;
+            color: white ;
+            height: 55px ;
+            border-bottom-color: white ;
+        }
+        
+         #topnavi a:hover{
+            color: black;
+        }
+        
+        .container-fluid li a:hover{
+           background-color: #418BCA ;
+           color: white ;
 
 
     </style>
@@ -57,7 +95,7 @@ if ($conn->connect_error) {
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="topnavi">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -66,26 +104,13 @@ if ($conn->connect_error) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Hi
-
-                <?php 
-                if(isset($_SESSION['status']))
-                {
-                  echo $_SESSION['unm']; 
-                }
-                else
-                { 
-                  echo ' error';
-                }
-              ?>
-
-
+          <a class="navbar-brand" href="#"> Question Paper Management System 
           </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 
-            <li><a href="http://localhost/IAT2/index.php">Logout</a></li>
+            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -145,9 +170,12 @@ if ($conn->connect_error) {
 
 
 
-               echo" <br><br><h4>Subject : $row3[SubjectName]<br><br>Subject Code : $row2[Subject_code]<br><br>
+              // echo" <br><br><h4>Subject : $row3[SubjectName]<br><br>Subject Code : $row2[Subject_code]<br><br>";
+							 echo" <br><br><div id='mydiv'><b>Subject : </b>$row3[SubjectName]<br><br><b>Subject Code : </b>$row2[Subject_code]<br><br>
 
-               <a href='http:../$row2[QP]' class='btn btn-lg btn-info' Download >Download</a><br></h4>";
+               <form method='post' action='GenerateOTP.php'>
+						 	<button type='submit' class='btn btn-lg btn-info' id='mygenbtn' value='http:../$row2[QP]' name='otp'>  Generate OTP</button><br></div>
+                            </form>";
 
            }
 
@@ -155,7 +183,7 @@ if ($conn->connect_error) {
 
       ?>
 
-
+				</div></div></div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -169,3 +197,12 @@ if ($conn->connect_error) {
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+<?php 
+
+} else {
+	header('location:logout.php');
+}
+
+
+
+?>

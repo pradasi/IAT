@@ -10,7 +10,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
+if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +34,7 @@ if ($conn->connect_error) {
 
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -76,7 +76,27 @@ if ($conn->connect_error) {
     width: 200px;
     height: 150px; 
 }*/
-
+ #topnavi{
+            background-color: 	#418BCA ;
+        }
+        #topnavi a{
+            font-family: 'Pacifico', cursive;
+            color: white ;
+            height: 55px ;
+            border-bottom-color: white ;
+        }
+        
+         #topnavi a:hover{
+            color: black;
+        }
+        
+        .container-fluid li a:hover{
+           background-color: #418BCA ;
+           color: white ;
+        
+        
+        }
+        
     </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -88,7 +108,7 @@ if ($conn->connect_error) {
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="topnavi">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -97,18 +117,8 @@ if ($conn->connect_error) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Hi
-              <?php 
-                if(isset($_SESSION['status']))
-                {
-                  echo $_SESSION['unm']; 
-                }
-                else
-                { 
-                  echo ' error';
-                }
-              ?>
-
+          <a class="navbar-brand" href="#">Question Paper Management System
+              
 
           </a>
         </div>
@@ -117,7 +127,7 @@ if ($conn->connect_error) {
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/index.php">Logout</a></li>
+            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -211,7 +221,7 @@ if ($conn->connect_error) {
             </div><br><br>
 
 
-            <button class="btn btn-lg btn-info"> Submit </button>
+            <button class="btn btn-lg btn-info" style=" background-color: 	#418BCA ;"> Submit </button>
          
 
 
@@ -241,3 +251,9 @@ if ($conn->connect_error) {
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
+<?php 
+
+} else {
+	header('location:logout.php');
+}
+?>
