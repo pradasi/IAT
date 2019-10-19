@@ -1,2 +1,4 @@
+Options -Indexes
+
  RewriteEngine on
  RewriteRule ^(.*).(pdf)$ index.php
