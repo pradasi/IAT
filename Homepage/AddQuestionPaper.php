@@ -1,16 +1,6 @@
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
+include "Connection.php";
 if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 
 ?>
@@ -123,27 +113,9 @@ $(".submit:not(disabled)").click(function() {
   height: 22px;
   width: 250px;
 }
-/*
-     .tb3 {
-  border: 2px dashed #111111;
-  width: 600px 600px;
-  border-left-padding: 500px;
-}*/
-/*#rcorners2 {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px; 
-}*/
+
 
     </style>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -165,7 +137,7 @@ $(".submit:not(disabled)").click(function() {
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -214,13 +186,6 @@ $(".submit:not(disabled)").click(function() {
                   <input type="file" class="form-control" name="qp">
                 </div><br><br>
 
-        <!--       <div class="group" > 
-              <label>Question Paper Name</label>     
-              <input type="int" class="tb5" name="name" required placeholder=" your name ">
-              <span class="highlight"></span>
-              <span class="bar"></span>
-              </div><br><br> -->
-
 
               <button class="submit"><span>Submit</span></button>
   
@@ -234,21 +199,6 @@ $(".submit:not(disabled)").click(function() {
 			</div>
 		</div>
 
-  <!--  <div class="group" > 
-              <label>Name</label>     
-              <input type="int" class="tb5" required>
-              <span class="highlight"></span>
-              <span class="bar"></span>
-              </div> -->
-
-
-
-         <!--  <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div> -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

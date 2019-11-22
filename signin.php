@@ -1,27 +1,17 @@
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "./Homepage/Connection.php"; 
 
 
 if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 		
 		$Email=$_POST['Email'];
-		$Password=$_POST['Password'];
+		$Password=md5($_POST['Password']);
 		$_SESSION['email'] = $Email;
  
-		$ret=mysqli_query( $conn, "select * from  Staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
+		$ret=mysqli_query( $conn, "select * from  staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
 		$row = mysqli_fetch_assoc($ret);
 		
-		$Options = mysqli_query( $conn ,"select Options from Staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
+		$Options = mysqli_query( $conn ,"select Options from staff where Email='$Email' and Password='$Password'") or die("Could not execute query: " .mysqli_error($conn));
 		$rowx =mysqli_fetch_assoc($Options);
 		if(!$row) {
 			header("Location:index.html");
@@ -33,6 +23,7 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 					$_SESSION['unm']=$row['Name'];
 					$_SESSION['type'] = "CI";
 					$_SESSION['status']=true;
+					$_SESSION['email'] = $Email;
 
 			header("Location:./Homepage/CIHome.php");
 		}
@@ -43,6 +34,7 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 					$_SESSION['unm']=$row['Name'];
 					$_SESSION['type'] = "CCI";
 					$_SESSION['status']=true;
+					$_SESSION['email'] = $Email;
 			header("Location:./Homepage/CCIHome.php");
 		}
 		
@@ -52,7 +44,16 @@ if( isset($_POST['Email']) and isset($_POST['Password']) ) {
 					$_SESSION['unm']=$row['Name'];
 					$_SESSION['type'] = "TC";
 					$_SESSION['status']=true;
+					$_SESSION['email'] = $Email;
 			header("Location:./Homepage/TCHome.php");
+		}
+		else if ($rowx['Options']=="Admin") {
+			$_SESSION=array();
+					$_SESSION['unm']=$row['Name'];
+					$_SESSION['type'] = "Admin";
+					$_SESSION['status']=true;
+					$_SESSION['email'] = $Email;
+			header("Location:./admin/");
 		}
 
 		// else{

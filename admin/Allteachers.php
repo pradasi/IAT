@@ -1,7 +1,8 @@
+
 <?php session_start();
 include "Connection.php";
 
-if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
+if($_SESSION['status'] == true && $_SESSION['type'] == "Admin" ){
 	
 ?>
 
@@ -25,24 +26,31 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
+		<link href="./fontawesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="../Homepage/dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../assets/js/ie-emulation-modes-warning.js"></script>
 
     <style type="text/css">
+			
+			.btn-twitter {
+    		background: #33BBF3;
+    		color: #fff;
+			}
+			.btn-youtube {
+    		background: #D6464B;
+    		color: #fff;
+			}
      
-      h4{
+      .tb3{
         font-style:Times New Roman;
         border-radius: 5px;
         border: 2px solid #418BCA;
         padding: 20px; 
-        width: 700px;
-        height: 80px; 
-        transition: all 0.5s;
+				color: #418BCA;
       } 
       h4:hover{
         background-color: #418BCA ;
@@ -69,6 +77,9 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
          background-color: #418BCA ;
          color: white ;
       }
+      .head{
+         color: #418BCA ;
+      }
     </style>
   </head>
 
@@ -88,7 +99,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="../Homepage/logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -98,52 +109,51 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Your Details <span class="sr-only">(current)</span></a></li>
-            <li><a href="AddQuestionPaper.php">Add Question Paper</a></li>
-            <li><a href="uploaded_qp.php">Uploaded question papers</a></li>
-            <li><a href="ChangesSentByCCI.php">Changes Suggested by CCI</a></li>
+            <li><a href="./">Your Details <span class="sr-only">(current)</span></a></li>
             <li><a href="ChangePassword.php">Change password</a></li>
+            <li><a href="RegisterStaff.php">Register Staff</a></li>
+            <li class="active"><a href="Allteachers.php">View Staff Details</a></li>
+            <li><a href="AddSubject.php">Add Subject</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Hi
-            <?php 
-              if(isset($_SESSION['status']))
-              {
-                echo $_SESSION['unm']; 
-              }
-              else
-              { 
-               echo 'error';
-              }
-            ?>
-
-
-          </h1>
-    <?php
-     $q="select * from staff where Name='$_SESSION[unm]'";
-     $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
-
-      $row=mysqli_fetch_assoc($res);
-
-      $q2 = "select Subject_code from subjects where SubjectName='$row[Subject]' ";
-      $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
-
-      $rowx=mysqli_fetch_assoc($res2);
-  
-              
-      echo "
-      <div class='tb3'>           
-      <p><h4>Your Email: $row[Email]</h4></p>
-      <p><h4>Your Role: $row[Options]</h4></p>
-      <p><h4>Semester : $row[Sem]</h4></p>
-      <p><h4>Subject: $row[Subject]</h4></p>
-      <p><h4>Subject: Code $rowx[Subject_code]</h4></p>
-      </div>
-     ";              
-      
-
-      ?>
+          <h1 class="page-header head"> All Staffs </h1>
+          <?php
+						$sql = "SELECT * FROM staff";
+						$res = mysqli_query($conn,$sql);
+						if($res -> num_rows > 0){
+							while($row = mysqli_fetch_assoc($res)){?>
+							<div class="tb3">
+								<div>
+								<p>
+									<b>Name:</b> <?=$row['Name']?>
+								</p>
+							</div>
+							<div>
+								<p><b>Email:</b> <?=$row['Email']?></p>
+							</div>
+							<div>
+								<p><b>Role:</b> <?=$row['Options']?></p>
+							</div>
+							<div>
+								<p>
+									<b>Subject:</b> <?=$row['Subject']?>
+								</p>
+							</div>
+							<div>
+							<?php $link = "EditStaff.php?id=".$row['Staff_id']; ?>
+							<a  class="btn btn-twitter m-b-xs" href=<?=$link?>><i class="fa fa-pencil"></i></a>
+							<?php $link = "DeleteStaff.php?id=".$row['Staff_id']; ?>
+							<a onclick="return confirm('Delete this Staff?')"  class="btn btn-youtube m-b-xs" href=<?=$link?>><i class="fa fa-trash-o"></i></a>	
+							</div>
+								
+							</div>
+							<br><br>
+								
+							<?php }
+						}
+					?>
+          
 				</div>
 			</div>
 		</div>
@@ -158,12 +168,27 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      var check = function() {
+      var button = document.getElementById('subbut')
+      if (document.getElementById('password').value ==
+        document.getElementById('confirm_password').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = 'matching';
+        button.disabled = false;
+      } else {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'not matching';
+        button.disabled = true;
+      }
+    }
+    </script>
   </body>
 </html>
 <?php 
 } else {
 	
-	header('location:logout.php');
+	header('location:/');
 }
 
 

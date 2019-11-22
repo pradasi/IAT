@@ -14,7 +14,7 @@
 			if($op){
 
 				//$to =$_SESSION['email'];
-         $to="prak16cs@cmrit.ac.in" ;
+        $to="prak16cs@cmrit.ac.in" ;
 				$subject = 'OTP';
 				$message = $op;
 				$headers = 'From: webmaster@example.com' . "\r\n" .

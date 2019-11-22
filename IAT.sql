@@ -2,10 +2,10 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 01, 2019 at 08:27 PM
+-- Host: 127.0.0.1
+-- Generation Time: Nov 21, 2019 at 08:34 AM
 -- Server version: 10.1.36-MariaDB
--- PHP Version: 5.6.38
+-- PHP Version: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,35 +19,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `IAT`
+-- Database: `iat`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Changes`
+-- Table structure for table `changes`
 --
 
-CREATE TABLE `Changes` (
+CREATE TABLE `changes` (
   `QP_code` int(10) NOT NULL,
   `Changes_needed` varchar(300) NOT NULL,
   `change_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `Changes`
+-- Dumping data for table `changes`
 --
 
-INSERT INTO `Changes` (`QP_code`, `Changes_needed`, `change_id`) VALUES
+INSERT INTO `changes` (`QP_code`, `Changes_needed`, `change_id`) VALUES
 (28, 'spelling errors', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Question_paper`
+-- Table structure for table `question_paper`
 --
 
-CREATE TABLE `Question_paper` (
+CREATE TABLE `question_paper` (
   `QP_code` int(10) NOT NULL,
   `Subject_code` varchar(10) NOT NULL,
   `Sem` int(10) NOT NULL,
@@ -58,10 +58,10 @@ CREATE TABLE `Question_paper` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `Question_paper`
+-- Dumping data for table `question_paper`
 --
 
-INSERT INTO `Question_paper` (`QP_code`, `Subject_code`, `Sem`, `QP`, `VerifiedbyCCI`, `CI_Id`, `Confirmed`) VALUES
+INSERT INTO `question_paper` (`QP_code`, `Subject_code`, `Sem`, `QP`, `VerifiedbyCCI`, `CI_Id`, `Confirmed`) VALUES
 (28, '15CS42', 4, 'upload_qp/5424Ch05-2.pdf', 1, 20, 1),
 (32, '15CS42', 4, 'upload_qp/CHAPTER 5.pdf', 0, 20, 0),
 (33, '15CS42', 4, 'upload_qp/lecture 01 Boolean logic-2.pdf', 0, 20, 0),
@@ -74,13 +74,13 @@ INSERT INTO `Question_paper` (`QP_code`, `Subject_code`, `Sem`, `QP`, `Verifiedb
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Staff`
+-- Table structure for table `staff`
 --
 
-CREATE TABLE `Staff` (
+CREATE TABLE `staff` (
   `Staff_id` int(10) NOT NULL,
   `Email` varchar(30) NOT NULL,
-  `Password` varchar(10) NOT NULL,
+  `Password` varchar(50) NOT NULL,
   `Options` varchar(40) NOT NULL,
   `Sem` int(10) NOT NULL,
   `Name` varchar(60) NOT NULL,
@@ -88,32 +88,33 @@ CREATE TABLE `Staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `Staff`
+-- Dumping data for table `staff`
 --
 
-INSERT INTO `Staff` (`Staff_id`, `Email`, `Password`, `Options`, `Sem`, `Name`, `Subject`) VALUES
-(20, 'ramu@gmail.com', 'ramu', 'Course Instructor - CI', 4, 'Ramu', 'Software Engineering'),
-(21, 'raju@gmail.com', 'raju', 'Test Coordinator - TC', 2, 'Raju', 'Analog and Digital Electronics'),
-(22, 'rock@gmail.com', 'rock', 'Chief Course Instructor - CCI', 5, 'Rock', 'Computer Networks'),
-(23, 'mini@gmail.com', 'mini', 'Chief Course Instructor - CCI', 4, 'Mini', 'Software Engineering');
+INSERT INTO `staff` (`Staff_id`, `Email`, `Password`, `Options`, `Sem`, `Name`, `Subject`) VALUES
+(20, 'ramu@gmail.com', '202cb962ac59075b964b07152d234b70', 'Course Instructor - CI', 4, 'RAMU', 'Software Engineering'),
+(21, 'raju@gmail.com', '202cb962ac59075b964b07152d234b70', 'Test Coordinator - TC', 2, 'RAJU', 'Analog and Digital Electronics'),
+(22, 'rock@gmail.com', '202cb962ac59075b964b07152d234b70', 'Chief Course Instructor - CCI', 5, 'Rock', 'Computer Networks'),
+(23, 'mini@gmail.com', '202cb962ac59075b964b07152d234b70', 'Chief Course Instructor - CCI', 4, 'Mini', 'Software Engineering'),
+(24, 'iatadmin@cmrit.ac.in', '202cb962ac59075b964b07152d234b70', 'Admin', 0, 'Admin', 'All');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Subjects`
+-- Table structure for table `subjects`
 --
 
-CREATE TABLE `Subjects` (
+CREATE TABLE `subjects` (
   `Subject_code` varchar(10) NOT NULL,
   `SubjectName` varchar(60) NOT NULL,
   `Semester` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `Subjects`
+-- Dumping data for table `subjects`
 --
 
-INSERT INTO `Subjects` (`Subject_code`, `SubjectName`, `Semester`) VALUES
+INSERT INTO `subjects` (`Subject_code`, `SubjectName`, `Semester`) VALUES
 (' 15CS743', ' INFORMATION AND NETWORK SECURITY', 7),
 ('15CED24	', 'Computer Aided Engineering Drawing	', 2),
 ('15CHE22	', 'Engineering Chemistry', 2),
@@ -176,28 +177,28 @@ INSERT INTO `Subjects` (`Subject_code`, `SubjectName`, `Semester`) VALUES
 --
 
 --
--- Indexes for table `Changes`
+-- Indexes for table `changes`
 --
-ALTER TABLE `Changes`
+ALTER TABLE `changes`
   ADD PRIMARY KEY (`change_id`);
 
 --
--- Indexes for table `Question_paper`
+-- Indexes for table `question_paper`
 --
-ALTER TABLE `Question_paper`
+ALTER TABLE `question_paper`
   ADD PRIMARY KEY (`QP_code`),
   ADD KEY `Subject_code` (`Subject_code`);
 
 --
--- Indexes for table `Staff`
+-- Indexes for table `staff`
 --
-ALTER TABLE `Staff`
+ALTER TABLE `staff`
   ADD PRIMARY KEY (`Staff_id`);
 
 --
--- Indexes for table `Subjects`
+-- Indexes for table `subjects`
 --
-ALTER TABLE `Subjects`
+ALTER TABLE `subjects`
   ADD PRIMARY KEY (`Subject_code`);
 
 --
@@ -205,32 +206,32 @@ ALTER TABLE `Subjects`
 --
 
 --
--- AUTO_INCREMENT for table `Changes`
+-- AUTO_INCREMENT for table `changes`
 --
-ALTER TABLE `Changes`
+ALTER TABLE `changes`
   MODIFY `change_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `Question_paper`
+-- AUTO_INCREMENT for table `question_paper`
 --
-ALTER TABLE `Question_paper`
+ALTER TABLE `question_paper`
   MODIFY `QP_code` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
--- AUTO_INCREMENT for table `Staff`
+-- AUTO_INCREMENT for table `staff`
 --
-ALTER TABLE `Staff`
-  MODIFY `Staff_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+ALTER TABLE `staff`
+  MODIFY `Staff_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `Question_paper`
+-- Constraints for table `question_paper`
 --
-ALTER TABLE `Question_paper`
-  ADD CONSTRAINT `question_paper_ibfk_1` FOREIGN KEY (`Subject_code`) REFERENCES `Subjects` (`Subject_code`);
+ALTER TABLE `question_paper`
+  ADD CONSTRAINT `question_paper_ibfk_1` FOREIGN KEY (`Subject_code`) REFERENCES `subjects` (`Subject_code`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

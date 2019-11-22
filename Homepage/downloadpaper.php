@@ -1,15 +1,5 @@
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "Connection.php"; 
 if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
 ?>
 
@@ -110,7 +100,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -122,6 +112,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
           <ul class="nav nav-sidebar">
             <li><a href="TCHome.php">Your Details <span class="sr-only">(current)</span></a></li>
             <li class="active" ><a href="#">Download Question Paper</a></li>
+            <li><a href="ChangePassword.php">Change password</a></li>
             
           </ul>
         </div>
@@ -153,7 +144,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
 
           // $CI_Id = $row['Staff_id'];
 
-          $q2 = "Select * from Question_paper where Confirmed =1";
+          $q2 = "Select * from question_paper where Confirmed =1";
 
           $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
 
@@ -162,7 +153,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
           
 
 
-          $q3 = "select * from Subjects where Subject_code='$row2[Subject_code]'";
+          $q3 = "select * from subjects where Subject_code='$row2[Subject_code]'";
 
           $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
 
@@ -188,7 +179,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "TC" ){
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->

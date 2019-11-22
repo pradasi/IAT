@@ -1,16 +1,6 @@
 
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "Connection.php";
 if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 	
 
@@ -85,27 +75,11 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
         
         
         }
-/*
-     .tb3 {
-  border: 2px dashed #111111;
-  width: 600px 600px;
-  border-left-padding: 500px;
-}*/
-/*#rcorners2 {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px; 
-}*/
+
 
     </style>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
   </head>
 
   <body>
@@ -127,7 +101,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -161,57 +135,48 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 
           </h1>
 <?php
+			$email = $_SESSION['email'];
+     $q="select * from staff where Email='$email'";
+     $res=mysqli_query($conn,$q) or die("Can't Execute Query... based on name");
 
-     $q="select * from Staff where Name='$_SESSION[unm]'";
-     $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
+     $row=mysqli_fetch_assoc($res);
 
-      $row=mysqli_fetch_assoc($res);
+		$q2 = "select Subject_code from subjects where SubjectName='$row[Subject]' ";
+		$res2=mysqli_query($conn,$q2) or die("Can't Execute Query... subject");
 
-      $q2 = "select Subject_code from Subjects where SubjectName='$row[Subject]' ";
-      $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
-
-      $rowx=mysqli_fetch_assoc($res2);
+		$rowx=mysqli_fetch_assoc($res2);
 
 
-      $Subject_code = $rowx['Subject_code'];
-  
-      $q3 = "select * from Question_paper where Subject_code ='$rowx[Subject_code]'";
-      $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
+		$Subject_code = $rowx['Subject_code'];
+
+		$q3 = "select * from question_paper where Subject_code ='$rowx[Subject_code]'";
+		$res3=mysqli_query($conn,$q3) or die("Can't Execute Query... subject code");
        
      
-     $rowy=mysqli_fetch_assoc($res3);
+     while($rowy=mysqli_fetch_assoc($res3)){
      $QP_code = $rowy['QP_code'];
-
-     $q4 =" select * from Changes where QP_code=$QP_code";
-    $res4=mysqli_query($conn,$q4) or die("Can't Execute Query...");
-
-
+		
+    $q4 =" select * from changes where QP_code=$QP_code";
+    $res4=mysqli_query($conn,$q4) or die("Can't Execute Query... qp code");
       while($rowz=mysqli_fetch_assoc($res4)){
      
-
-      // $rowz=mysqli_fetch_assoc($res4);
               
       echo "
       <div class='tb3'>           
       <p><h4>Question Paper code: $rowz[QP_code]</p>
+			
       <p>Changes needed : $rowz[Changes_needed]</h4></p><br>
       </div>
      ";              
       
      } 
+		}
   ?>
 				</div>
 			</div>
 		</div>
 
 
-
-         <!--  <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div> -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

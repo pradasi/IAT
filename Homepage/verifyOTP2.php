@@ -169,7 +169,7 @@ if($_SESSION['generated']){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -181,7 +181,7 @@ if($_SESSION['generated']){
           <ul class="nav nav-sidebar">
             <li ><a href="#">Your Details <span class="sr-only">(current)</span></a></li>
             <?php if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){?>
-            <li class="active"><a href="view_download_qp.php">View/Download Question Paper</a></li>
+            <li><a href="view_download_qp.php">View/Download Question Paper</a></li>
             <li><a href="suggestchanges.php">Suggest Changes</a></li>
              <li><a href="nochanges.php">Final selection for IAT</a></li>
               <li><a href="deleteconfirm.php">Remove Final selection for IAT</a></li>
@@ -208,7 +208,7 @@ if($_SESSION['generated']){
                             
                             
                             echo "<script> countdown() ;</script>";
-                            echo "<div id='mydiv'>Download link will expire in 30 seconds<br><br><div id='someId'></div> <br><a id='mybtn' class='btn btn-primary' Download href=$path >CLICK TO DOWNLOAD</a></div> " ;
+                            echo "<div id='mydiv'>Download link will expire in 30 seconds<br><br><div id='someId'></div> <br><a id='mybtn' class='btn btn-primary' href='download.php?path=".$path."' >CLICK TO DOWNLOAD</a></div> " ;
                         
                            $_SESSION['OTP'] = '';
                             $_SESSION['path'] = '';
@@ -278,16 +278,16 @@ if($_SESSION['generated']){
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+			window.onbeforeunload = function(e){
+				<?php $_SESSION['generated'] = false; ?>
+			}
+		</script>
  
   </body>
 </html>
 <?php } else {
+		
+	header('location:index.php');
 	
-	if($_SESSION['type'] == "CCI"){
-	header('location:view_download_qp.php');
-	} else if($_SESSION['type'] == "TC"){
-		header('location:downloadpaper.php');	
-	} else {
-		header('location:logout.php');
-	}
 }?>

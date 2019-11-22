@@ -159,7 +159,7 @@ if($_SESSION['generated']){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -171,7 +171,7 @@ if($_SESSION['generated']){
           <ul class="nav nav-sidebar">
             <li ><a href="#">Your Details <span class="sr-only">(current)</span></a></li>
             <?php if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){?>
-            <li class="active"><a href="view_download_qp.php">View/Download Question Paper</a></li>
+            <li><a href="view_download_qp.php">View/Download Question Paper</a></li>
             <li><a href="suggestchanges.php">Suggest Changes</a></li>
              <li><a href="nochanges.php">Final selection for IAT</a></li>
               <li><a href="deleteconfirm.php">Remove Final selection for IAT</a></li>
@@ -184,22 +184,27 @@ if($_SESSION['generated']){
         <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
 
- <form method="post" style="margin-left: 0px; margin-top: 10%" action="verifyOTP2.php">
+ <form method="post" id="form" style="margin-left: 0px; margin-top: 10%" action="verifyOTP2.php">
   <div class="form-group" id="otpBlock" style="width:70% ;" >
     <p><b>Validate OTP (One Time Password)</b> </p>
     <p>An OTP( One Time Password ) has been sent to your Email ID.<br> Please Enter the OTP to Verify in the given text below </p>
      <p>OTP expires in 60 seconds</p>
      <?php echo "<script>countdown()</script>";
 						echo "<div id='someId'></div>";
-						if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){
-					  echo "<script>setTimeout(function() {
-										window.location = 'view_download_qp.php'
-												}, 60000);</script>" ;
-						} else  if($_SESSION['status'] == true && $_SESSION['type'] == "TC") {
-														 echo "<script>setTimeout(function() {
-                                    window.location = 'downloadpaper.php'
-                                        }, 30000);</script>" ;
-													 }
+//						if($_SESSION['status'] == true && $_SESSION['type'] == "CCI"){
+//					  echo "<script>setTimeout(function() {
+//										window.location = 'selectedqp.php'
+//												}, 60000);</script>" ;
+//						} else  if($_SESSION['status'] == true && $_SESSION['type'] == "TC") {
+//														 echo "<script>setTimeout(function() {
+//                                    window.location = 'downloadpaper.php'
+//                                        }, 30000);</script>" ;
+//													 }
+							if($_SESSION['status'] == true){
+					  		echo "<script>setTimeout(function() {
+										window.location = 'index.php'
+												}, 60000);</script>";
+							}
 														 
 			?>
       
@@ -234,17 +239,16 @@ if($_SESSION['generated']){
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+			window.onbeforeunload = function(e){
+				<?php $_SESSION['generated'] = false; ?>
+			}
+		</script>
     
  
   </body>
 </html>
 <?php } else {
 	
-	if($_SESSION['type'] == "CCI"){
-	header('location:view_download_qp.php');
-	} else if($_SESSION['type'] == "TC"){
-		header('location:downloadpaper.php');	
-	} else {
-		header('location:logout.php');
-	}
+		header('location:index.php');
 }?>

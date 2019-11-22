@@ -1,15 +1,5 @@
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "Connection.php";
 if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 ?>
 
@@ -118,7 +108,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -129,7 +119,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ><a href="CCIHome.php">Your Details <span class="sr-only">(current)</span></a></li>
-            <li ><a href="view_download_qp.php">View/Download Question Paper</a></li>
+            <li ><a href="view_download_qp.php">View Question Paper</a></li>
             <li class="active" ><a href="#">Suggest Changes</a></li>
              <li><a href="nochanges.php">Final selection for IAT</a></li>
               <li><a href="deleteconfirm.php">Remove Final selection for IAT</a></li>
@@ -161,14 +151,14 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
          
 
-          $q="select * from Staff where Name='$_SESSION[unm]'";
+          $q="select * from staff where Name='$_SESSION[unm]'";
           $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
 
           $row=mysqli_fetch_assoc($res);
 
           $SubjectName = $row['Subject'];
 
-          $q2 = "select Subject_code from Subjects where SubjectName='$SubjectName' ";
+          $q2 = "select Subject_code from subjects where SubjectName='$SubjectName' ";
 
            $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
 
@@ -176,7 +166,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
            $SubjectCode = $row2['Subject_code'];
 
-           $q3 = "Select * from Question_paper where Subject_code ='$SubjectCode'";
+           $q3 = "Select * from question_paper where Subject_code ='$SubjectCode'";
 
            $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
 

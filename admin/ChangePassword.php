@@ -1,7 +1,9 @@
+
 <?php session_start();
 include "Connection.php";
 
-if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
+
+if($_SESSION['status'] == true && $_SESSION['type'] == "Admin" ){
 	
 ?>
 
@@ -27,7 +29,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
     <link href="../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="../Homepage/dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -69,6 +71,10 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
          background-color: #418BCA ;
          color: white ;
       }
+      .head{
+         color: #418BCA ;
+      }
+
     </style>
   </head>
 
@@ -88,7 +94,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="../Homepage/logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -98,52 +104,41 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Your Details <span class="sr-only">(current)</span></a></li>
-            <li><a href="AddQuestionPaper.php">Add Question Paper</a></li>
-            <li><a href="uploaded_qp.php">Uploaded question papers</a></li>
-            <li><a href="ChangesSentByCCI.php">Changes Suggested by CCI</a></li>
-            <li><a href="ChangePassword.php">Change password</a></li>
+            <li><a href="./">Your Details <span class="sr-only">(current)</span></a></li>
+            <li class="active" ><a href="ChangePassword.php">Change password</a></li>
+            <li><a href="RegisterStaff.php">Register Staff</a></li>
+            <li><a href="Allteachers.php">View Staff Details</a></li>
+            <li><a href="AddSubject.php">Add Subject</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Hi
-            <?php 
-              if(isset($_SESSION['status']))
-              {
-                echo $_SESSION['unm']; 
-              }
-              else
-              { 
-               echo 'error';
-              }
-            ?>
-
-
+          <h1 class="page-header head"> Password Change
           </h1>
-    <?php
-     $q="select * from staff where Name='$_SESSION[unm]'";
-     $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
-
-      $row=mysqli_fetch_assoc($res);
-
-      $q2 = "select Subject_code from subjects where SubjectName='$row[Subject]' ";
-      $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
-
-      $rowx=mysqli_fetch_assoc($res2);
-  
-              
-      echo "
+   
       <div class='tb3'>           
-      <p><h4>Your Email: $row[Email]</h4></p>
-      <p><h4>Your Role: $row[Options]</h4></p>
-      <p><h4>Semester : $row[Sem]</h4></p>
-      <p><h4>Subject: $row[Subject]</h4></p>
-      <p><h4>Subject: Code $rowx[Subject_code]</h4></p>
+        <form action="ChangePass.php" method="POST">
+          <div class="form-group">
+            <label class="head">Enter Current Password</label>
+            <input type="text" class="form-control" placeholder="Enter Current Password" name="cur_pass" autocomplete="off" required >
+          </div>
+          <div class="form-group">
+            <label class="head">Enter New Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter New Password" name="new_pass" autocomplete="off" required >
+          </div>
+          <div class="form-group">
+            <label class="head">Confirm Password</label>
+            <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" name="conf_pass" autocomplete="off" onkeyup="check()" required >
+            <span id='message'></span>
+          </div>
+          <div class="form-group">
+            <center>
+              <button id="subbut" name="submit" class="btn btn-primary" type="Submit" disabled>
+                Change Password
+              </button>
+            </center>
+          </div>
+        </form>      
       </div>
-     ";              
-      
-
-      ?>
 				</div>
 			</div>
 		</div>
@@ -158,12 +153,27 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      var check = function() {
+      var button = document.getElementById('subbut')
+      if (document.getElementById('password').value ==
+        document.getElementById('confirm_password').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = 'matching';
+        button.disabled = false;
+      } else {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'not matching';
+        button.disabled = true;
+      }
+    }
+    </script>
   </body>
 </html>
 <?php 
 } else {
 	
-	header('location:logout.php');
+	header('location:/');
 }
 
 

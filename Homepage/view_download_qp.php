@@ -1,15 +1,5 @@
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "Connection.php";
 if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
 ?>
@@ -47,7 +37,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
           border-radius: 5px;
         border: 2px solid #1263a7;
        padding: 10px ;
-        width: 75% ;
+        width: 100% ;
       transition: all 0.3s;
         background-color: #418BCA ;
             color: white ;
@@ -56,9 +46,11 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
         
          
      } 
+/*
         #mydiv:hover{
             transform: scale(1.01);
         }
+*/
         #mygenbtn{
            
              color: #418BCA ;
@@ -125,7 +117,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -136,7 +128,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ><a href="CCIHome.php">Your Details <span class="sr-only">(current)</span></a></li>
-            <li class="active"><a href="#">View/Download Question Paper</a></li>
+            <li class="active"><a href="#">View Question Paper</a></li>
             <li><a href="suggestchanges.php">Suggest Changes</a></li>
              <li><a href="nochanges.php">Final selection for IAT</a></li>
               <li><a href="deleteconfirm.php">Remove Final selection for IAT</a></li>
@@ -165,14 +157,15 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
          
 
-          $q="select * from Staff where Name='$_SESSION[unm]'";
+          $q="select * from staff where Email='$_SESSION[email]'";
           $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
 
           $row=mysqli_fetch_assoc($res);
+	
 
           $SubjectName = $row['Subject'];
 
-          $q2 = "select Subject_code from Subjects where SubjectName='$SubjectName' ";
+          $q2 = "select Subject_code from subjects where SubjectName='$SubjectName' ";
 
            $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
 
@@ -180,7 +173,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 
            $SubjectCode = $row2['Subject_code'];
 
-           $q3 = "Select * from Question_paper where Subject_code ='$SubjectCode'";
+           $q3 = "Select * from question_paper where Subject_code ='$SubjectCode'";
 
            $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
 
@@ -190,8 +183,9 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
 						 
                echo" <br><br><div id='mydiv'><b>Subject Name : </b>$SubjectName<br><br><b>Question Paper code : </b>$row3[QP_code]<br><br>
 							 <form method='post' action='GenerateOTP.php'>
-						 	<button type='submit' class='btn btn-lg btn-info' id='mygenbtn' value='http:../$row3[QP]' name='otp'>  Generate OTP</button><br></div>
-                            </form>";
+						 		<a href='viewpdf.php?path=../".$row3['QP']."#toolbar=0&navpanes=0&scrollbar=0"."' target='_blank' class='btn btn-primary' >view</a>
+								
+               </form></div>";
 						 
            }
 
@@ -201,52 +195,17 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CCI" ){
         
             
             
-<!--
-        <div class="container">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Generate OTP</button>
-                <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <form method='post' action='GenerateOTP.php' id="modal-details">
-                                    <p><b>Validate OTP (One Time Password)</b> </p>
-                                    <p>An OTP( One Time Password ) has been sent to your Email ID.<br> Please Enter the OTP to Verify</p>
-                                    <input type="text" class="form-control" id="usr" name="EnteredOTP" placeholder="Enter the OTP"> 
 
-                                    <div class="modal-footer">
-                                    <button type='submit' class="btn btn-success" style="text-align:left" form="modal-details" onclick="GenerateOtp()">Validate OTP</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                </div>
-          </div>
-        </div>
--->
             
        
             
-
+<!--<button type='submit' class='btn btn-lg btn-info' id='mygenbtn' value='http:../$row3[QP]' name='otp'>  Generate OTP</button><br>-->
             
 
 				</div>
 			</div>
 		</div>
-		<script>
-    
 
-
-         <!--  <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div> -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../dist/js/bootstrap.min.js"></script>

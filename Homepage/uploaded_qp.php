@@ -1,17 +1,6 @@
 
 <?php session_start();
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "IAT";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-	
-} 
+include "Connection.php"; 
 
 if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 	
@@ -47,24 +36,17 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
     <script src="../assets/js/ie-emulation-modes-warning.js"></script>
 
         <style type="text/css">
+				
      
      h4{
 			font-style:Times New Roman;
 			border-radius: 5px;
 			border: 2px solid #418BCA;
 			padding: 20px; 
-			width: 700px;
-			height: 80px; 
-			transition: all 0.5s;
-         
-        
+            
          
      } 
-        h4:hover{
-            background-color: #418BCA ;
-            color: white ;
-            transform: scale(1.1) ;
-        }
+
         
  
         #topnavi{
@@ -91,27 +73,8 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
   margin: 4px 0;
   color: white;
 }
-/*
-     .tb3 {
-  border: 2px dashed #111111;
-  width: 600px 600px;
-  border-left-padding: 500px;
-}*/
-/*#rcorners2 {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px; 
-}*/
 
     </style>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -133,7 +96,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
            <!--  <li><a href="#">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li> -->
-            <li><a href="http://localhost/IAT2/Homepage/logout.php">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -149,6 +112,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
             <li><a href="ChangesSentByCCI.php">Changes Suggested by CCI</a></li>
           </ul>
         </div>
+       
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Hi
 
@@ -171,38 +135,61 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
 
          
 
-          $q="select * from Staff where Name='$_SESSION[unm]'";
+          $q="select * from staff where Email='$_SESSION[email]'";
           $res=mysqli_query($conn,$q) or die("Can't Execute Query...");
 
           $row=mysqli_fetch_assoc($res);
 
           $CI_Id = $row['Staff_id'];
 
-          $q2 = "Select * from Question_paper where CI_Id='$CI_Id'";
+          $q2 = "Select * from question_paper where CI_Id='$CI_Id'";
 
            $res2=mysqli_query($conn,$q2) or die("Can't Execute Query...");
            
            
 
  
-
-
+//<embed src='http:../".$row2['QP']."' type='application/pdf' width='100%' height='1500px;'>
+//<object data='$path' type='application/pdf' style='pointer-events: none;'  width='100%' height='1500px;' /></object>
+//."#toolbar=0&navpanes=0&scrollbar=0";
 
           while ($row2=mysqli_fetch_assoc($res2) ) {
-          $q3 = "select * from Subjects where Subject_code='$row2[Subject_code]'";
+          $q3 = "select * from subjects where Subject_code='$row2[Subject_code]'";
            $res3=mysqli_query($conn,$q3) or die("Can't Execute Query...");
 
-
+						//$path = "http:../".$row2['QP'];
             $row3=mysqli_fetch_assoc($res3) ;
+						
             
-               echo" <br><br><h4>Subject : $row3[SubjectName]<br><br>Subject Code : $row2[Subject_code]<br><br>Question Paper Code : $row2[QP_code] <br><br>
-
-               <a href='http:../$row2[QP]' class='btn btn-lg btn-info' Download >Download</a><br></h4>";
+               echo"
+							 	<br>
+								<br>
+								<h4>
+									Subject : $row3[SubjectName]
+									<br>
+									<br>
+									Subject Code : $row2[Subject_code]
+									<br>
+									<br>
+									Question Paper Code : $row2[QP_code]
+									<br>
+									<br>	
+									<a href='viewpdf.php?path=../".$row2['QP']."#toolbar=0&navpanes=0&scrollbar=0"."' target='_blank' class='btn btn-primary' >view</a>";
+						if($row2['Confirmed'] != 1){
+								echo"
+									<a href='deletepdf.php?path=../".$row2['QP']."&code=".$row2['QP_code']."' class='btn btn-primary'>delete</a>";
+						}
+               	echo"
+										<br>
+							 			</h4>";
 
            }
 
           ?>
+          <!--				This can be used to download replace it for embed tag-->
+<!--	<a href='download.php?path= ../".$row2['QP']."' target='_blank' class='btn btn-primary' >Download</a>		-->
 				</div>
+
 			</div>
 		</div>
 
@@ -228,6 +215,7 @@ if($_SESSION['status'] == true && $_SESSION['type'] == "CI" ){
     <script src="../assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
+    
   </body>
 </html>
 
