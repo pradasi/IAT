@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2019 at 08:34 AM
+-- Generation Time: Dec 05, 2019 at 07:35 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -39,7 +39,8 @@ CREATE TABLE `changes` (
 --
 
 INSERT INTO `changes` (`QP_code`, `Changes_needed`, `change_id`) VALUES
-(28, 'spelling errors', 2);
+(28, 'spelling errors', 2),
+(34, 'nothing', 3);
 
 -- --------------------------------------------------------
 
@@ -65,7 +66,7 @@ INSERT INTO `question_paper` (`QP_code`, `Subject_code`, `Sem`, `QP`, `Verifiedb
 (28, '15CS42', 4, 'upload_qp/5424Ch05-2.pdf', 1, 20, 1),
 (32, '15CS42', 4, 'upload_qp/CHAPTER 5.pdf', 0, 20, 0),
 (33, '15CS42', 4, 'upload_qp/lecture 01 Boolean logic-2.pdf', 0, 20, 0),
-(34, '15CS42', 4, 'upload_qp/5424Ch05.pdf', 0, 20, 0),
+(34, '15CS42', 4, 'upload_qp/5424Ch05.pdf', 1, 20, 1),
 (35, '15CS42', 4, 'upload_qp/AnnexureE.pdf', 0, 20, 0),
 (36, '15CS42', 4, 'upload_qp/5424Ch05-2 (1).pdf', 0, 20, 0),
 (37, '15CS42', 4, 'upload_qp/5424Ch05-7.pdf', 0, 20, 0),
@@ -169,6 +170,7 @@ INSERT INTO `subjects` (`Subject_code`, `SubjectName`, `Semester`) VALUES
 ('15MAT21', 'Engineering Maths-II', 2),
 ('15MAT31', 'Engineering Mathematics - III', 3),
 ('15MAT41', 'Engineering Mathematics - IV', 4),
+('15ME31', 'Thermo dynamics', 3),
 ('15PCD23	', 'Programming in C & Data Structures', 2),
 ('15PHY12', 'Engineering Physics', 1);
 
@@ -209,7 +211,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `changes`
 --
 ALTER TABLE `changes`
-  MODIFY `change_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `change_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `question_paper`
